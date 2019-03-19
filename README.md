@@ -1,6 +1,6 @@
 # GETTING STARTED WITH BLOCKCHAIN WITH HYPERLEDGER TOOLS
 
-> Certifique-se de instalar todos os requisitos necessários para iniciar o desenvolvimento:
+Certifique-se de instalar todos os requisitos necessários para iniciar o desenvolvimento:
 
 * Sistemas operacionais: Ubuntu 14.04 **+**, ou Mac OS 10.12
 * Ao menos 4GB de RAM
@@ -12,7 +12,7 @@
 * Python: 2.7.x **+**
 * Um editor de texto de sua escolha, nós recomendamos o VSCode
 
-> Caso esteja utilizando o ubuntu 16.04, utilize o seguinte script para instalar os pre-requisitos:
+Caso esteja utilizando o ubuntu 16.04, utilize o seguinte script para instalar os pre-requisitos:
 
 ```
 curl -O https://hyperledger.github.io/composer/latest/prereqs-ubuntu.sh
@@ -23,7 +23,7 @@ curl -O https://hyperledger.github.io/composer/latest/prereqs-ubuntu.sh
 chmod u+x prereqs-ubuntu.sh
 ```
 
-> Em seguida rode o script. O mesmo fara o uso do sudo em sua execução e você precisará autorizar com sua senha:
+Em seguida rode o script. O mesmo fara o uso do sudo em sua execução e você precisará autorizar com sua senha:
 ```
 ./prereqs-ubuntu.sh
 ```
@@ -94,7 +94,7 @@ export FABRIC_VERSION=hlfv12
 ./downloadFabric.sh
 ```
 
-> Parabéns, você agora instalou tudo o que precisa para começar a desenvolver.
+### Parabéns, você agora instalou tudo o que precisa para começar a desenvolver.
 
 # INICIANDO O DESENVOLVIMENTO
 
@@ -180,7 +180,7 @@ async function transferenciaDeProprietario(tr) {
 }
 ```
 
-> Considerando as linhas do arquivo `logic.js`:
+Considerando as linhas do arquivo `logic.js`:
 
 * 2: nós criamos um objeto do tipo parâmetro, que representa qual dos modelos de transação iremos implementar;
 
