@@ -101,13 +101,15 @@ export FABRIC_VERSION=hlfv12
 O Hyperledger Composer fornece uma opção mais amigável para o desenvolvimento de aplicações blockchain. Nesse tutorial iremos definir todos os elementos da nossa rede e, por último, iremos gerar uma API REST que pode servir de ponte entre a rede blockchain e aplicações externas.
 Para definir todos os elementos dessa rede, iremos seguir os passos fornecidos pela documentação oficial do Hyperledger Composer, que são:
 1. Criar a estrutura da rede;
-1. Definir os elementos da rede;
+1. Definir os elementos da rede de negócios;
 1. Gerar um arquivo de rede;
-    * Arquivo ao qual são empacotados todas as informações e todos os elementos da rede, necessários para alocar nossa rede blockchain em uma instância de rede Hyperledger Fabric.
-1. Implantar a rede em uma instância do Hyperledger Fabric;
-1. Gerar um Servidor REST;
+1. Implantar a rede de negócios;
+1. Gerar um servidor REST;
 
-No primeiro passo utilizaremos uma ferramenta chamada Yeoman, que basicamente vai gerar um esqueleto ou estrutura básica de diretórios contendo uma “Rede de Negócios”. Essa estrutura conterá alguns arquivos de definições de uma Rede de Negócios básica como por exemplo:
+## Passo 1: Criando a Estrutura da Rede
+#### Esse passo utiliza uma ferramenta chamada Yeoman para gerar um esqueleto de Rede de Negócios.
+
+Essa estrutura conterá alguns arquivos de definições de uma Rede de Negócios básica, distribuídos em alguns diretórios como por exemplo:
 1. O arquivo de modelos (models.cto) que conterá as informações pertinentes aos participantes, ativos e transações da rede.
 1. O arquivo de controle de acessos (permissions.acl) que conterá regras para definir a quais ativos de uma rede os participantes terão acesso e sob quais condições.
 
@@ -128,18 +130,22 @@ Se a geração for bem sucedida, deverão ser exibidos no terminal os arquivos e
 Depois de executado esse comando devemos ter uma pasta criada com o mesmo nome da rede. Vá até o diretório do projeto.
 Como selecionamos a opção “Sim” para gerar uma rede vazia, o gerador Yo gerou o mínimo de arquivos e diretórios necessários para uma rede de negócios Hyperledger Composer. Para o nosso tutorial precisaremos de mais que isso, portanto devemos criar na raiz do projeto um arquivo chamado “logic.js”.
 
-No segundo passo nós iremos definir os elementos de nossa rede seguindo como base os templates de cada arquivo que foi gerado no passo 1. Para isso utilizaremos a VSCode que foi sugerida como um dos pré-requisitos.
+## Passo 2: Definindo os Elementos da Rede de Negócios
+#### Aqui você irá definir os elementos da rede de negócios seguindo como base os templates de cada arquivo que foi gerado no passo 1.
 
-Basta navegar até o diretório do projeto `/blockchain-teste` e digitar o seguinte comando:
+Para isso utilize a IDE VSCode que foi sugerida como um dos pré-requisitos.
+
+Basta navegar até o diretório do projeto `/blockchain-teste` e digitar o seguinte comando no terminal:
+
 ```
 code .
 ```
 
 Nesse tutorial definiremos uma rede blockchain bem simples, que simulará um mercado imobiliário, onde teremos como ativos fazendas, e teremos como participantes os proprietários das fazendas.
 
-Na IDE, abra o arquivo `org.teste.blockchain.cto` contido no diretório models e substitua o conteúdo do arquivo pelo seguinte:
+Na IDE, abra o arquivo `org.teste.blockchain.cto` contido no diretório models/ e substitua o conteúdo do arquivo pelo seguinte:
 
-```javascript`
+```javascript
 namespace org.test.blockchain
 
 participant Proprietario identified by cpf {
@@ -216,9 +222,61 @@ Para entender um pouco a função desse arquivo, nele nós escrevemos regras que
 
 ### Para mais informações sobre como é implementado o permissionamento numa rede de negócios Hyperledger Composer, acesse ao link: https://hyperledger.github.io/composer/latest/tutorials/acl-trading 
 
-Agora vamos empacotar todos os arquivos definidos anteriormente em formato que seja reconhecido pela platafomra Hyperledger Fabric. Uma observação que deve ser considerada é que a rede instanciada nesse tutorial roda apenas em uma máquina local.
+## Passo 3: Gerando um arquivo de rede
+#### Nesse arquivo serão empacotados todas as informações e todos os elementos da rede, necessários para a Implantação da rede no próximo passo.
 
-Entre no terminal do seu Ubuntu e navegue até o diretório raiz do projeto. Execute:
+Uma observação que deve ser considerada é que a rede instanciada nesse tutorial roda apenas em uma máquina local.
 
-`$composer archive create -t dir -n .`
+Execute no terminal:
 
+```
+composer archive create -t dir -n .
+```
+
+Esse comando irá gerar um arquivo com o nome da rede e extensão (.bna). É esse arquivo que iremos passar como argumento no próximo passo a fim de implantar nossa rede.
+
+## Passo 4: Implantando a Rede de Negócios
+#### Nesse passo a rede blockchain desenvolvida com o conjunto de ferramentas Hyperledger Composer será implantada em uma instância de rede do framework Hyperledger Fabric.
+
+Primeiro, execute as instâncias Fabric navegando até o diretório /fabric-dev-servers e executando o script startFabric.sh com o seguinte comando no terminal:
+
+```
+./startFabric.sh
+```
+
+Com as instâncias Fabric em execução, navegue de volta até a pasta do projeto e execute no terminal:
+
+```
+composer network install --card PeerAdmin@hlfv1 --archiveFile blockchain-teste@0.0.1.bna
+```
+
+O comando “composer network install” basicamente utiliza todas as permissões de administrador de rede Fabric fornecidas pelas credenciais presentes no “card” PeerAdmin@hlfv1, para instalar a rede de negócios definida no arquivo blockchain-teste@0.0.1.bna na rede Fabric em questão. Essas credenciais são criadas na instalação do Hyperledger Fabric na máquina local.
+
+Depois de instalar, você deve iniciar a rede de negócios. Execute no terminal:
+
+```
+composer network start --networkName blockchain-teste --networkVersion 0.0.1 --networkAdmin admin --networkAdminEnrollSecret adminpw --card PeerAdmin@hlfv1 --file networkadmin.card
+```
+
+Com a rede iniciada, importe a identidade do administrador da rede. Exeute no terminal:
+
+```
+composer card import --file networkadmin.card
+```
+
+Verifique se a rede foi implantada. Execute no terminal:
+
+```
+composer network ping --card admin@blockchain-teste
+```
+
+## Passo 5: Gerando um Servidor REST
+#### Utilizando a ferramenta HyperLedger Compose, poderemos criar uma API REST sob medida baseada em uma rede comercial. Nela é contida uma camada útil de abstração neutra de linguagem.
+
+Execute no terminal:
+
+```
+composer-rest-server -c admin@blockchain-teste -n never
+```
+
+Agora, podemos acessar as funcionalidades da blockchain através da API contida no endereço http://localhost:3000/explorer/.
