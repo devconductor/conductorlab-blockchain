@@ -139,7 +139,7 @@ Nesse tutorial definiremos uma rede blockchain bem simples, que simulará um mer
 
 Na IDE, abra o arquivo `org.teste.blockchain.cto` contido no diretório models e substitua o conteúdo do arquivo pelo seguinte:
 
-```javascript
+```javascript`
 namespace org.test.blockchain
 
 participant Proprietario identified by cpf {
@@ -193,3 +193,32 @@ Considerando as linhas do arquivo `logic.js`:
 O código desse arquivo é escrito em `Javascript`. 
 
 Nesse tutorial não iremos especificar como funciona o permissionamento numa rede de negócios Hyperledger Composer, portanto não iremos modificar o arquivo `permissions.acl`.
+
+```
+ rule NetworkAdminUser {
+	description: "Grant business network administrators full access to user resources"
+	participant: "org.hyperledger.composer.system.NetworkAdmin"
+	operation: ALL
+	resource: "**"
+	action: ALLOW
+
+}
+rule NetworkAdminSystem {
+	description: "Grant business network administrators full access to system resources"
+	participant: "org.hyperledger.composer.system.NetworkAdmin"
+	operation: ALL
+	resource: "org.hyperledger.composer.system.**"
+	action: ALLOW
+
+} 
+```
+Para entender um pouco a função desse arquivo, nele nós escrevemos regras que especificam o que cada tipo de usuário terá acesso na rede. As duas regras criadas pelo gerador Yo basicamente fornecem aos administradores da rede de negócios acesso total aos recursos.
+
+### Para mais informações sobre como é implementado o permissionamento numa rede de negócios Hyperledger Composer, acesse ao link: https://hyperledger.github.io/composer/latest/tutorials/acl-trading 
+
+Agora vamos empacotar todos os arquivos definidos anteriormente em formato que seja reconhecido pela platafomra Hyperledger Fabric. Uma observação que deve ser considerada é que a rede instanciada nesse tutorial roda apenas em uma máquina local.
+
+Entre no terminal do seu Ubuntu e navegue até o diretório raiz do projeto. Execute:
+
+`$composer archive create -t dir -n .`
+
