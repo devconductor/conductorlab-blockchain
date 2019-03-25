@@ -176,7 +176,7 @@ Na IDE, abra o arquivo `logic.js` que criamos e substitua o conteúdo do arquivo
 ```javascript
 /**
 * @param {org.teste.blockchain.Transferencia} tr
-* @transcation
+* @transaction
 */
 async function transferenciaDeProprietario(tr) {
     tr.fazenda.proprietario = tr.novoProprietario;
@@ -234,7 +234,7 @@ composer archive create -t dir -n .
 
 Esse comando irá gerar um arquivo com o nome da rede e extensão `.bna`. É esse arquivo que iremos passar como argumento no próximo passo a fim de implantar nossa rede.
 
-## Passo 4: Implantando a rede de Negócios
+## Passo 4: Implantando a rede de negócios
 
 Nesse passo a rede blockchain desenvolvida com o conjunto de ferramentas Hyperledger Composer será implantada em uma instância de rede do framework Hyperledger Fabric.
 
