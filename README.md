@@ -62,12 +62,11 @@ npm install -g composer-rest-server@0.20
 
 #### Enquanto podemos utilizar o navegador para trabalhar na aplicação, muitos usuários preferem utilizar uma IDE. Nós recomendamos o uso do VSCode pois o mesmo tem uma extensão do Composer disponível.
 
-1. Instale o VSCode por este link: [VSCode DOWNLOAD](https://code.visualstudio.com/download "VSCode")
+1. Baixe e instale o VSCode por este [link](https://code.visualstudio.com/download "VSCode").
 2. Abra-o, vá em extensões e procure por `Hyperledger Composer` e em seguida instale-o.
 
 ## Passo 4: Instalando o Hyperledger Fabric
-#### Este passo fará com que tenhas um runtime do Hyperledger Fabric em sua máquina para dar deploy em suas redes.
-
+#### Em seguida faremos a instalação de um runtime do Hyperledger Fabric para que seja possível dar deploy em suas redes de negócios.
 1. Em um diretório de sua escolha, baixe e faça a extração do arquivo `.tar.gz` que contem os arquivos necessários para a instalação:
 ```
 mkdir ~/fabric-dev-servers && cd ~/fabric-dev-servers
@@ -110,15 +109,15 @@ Para definir todos os elementos dessa rede, iremos seguir os passos fornecidos p
 #### Esse passo utiliza uma ferramenta chamada Yeoman para gerar um esqueleto de Rede de Negócios.
 
 Essa estrutura conterá alguns arquivos de definições de uma Rede de Negócios básica, distribuídos em alguns diretórios como por exemplo:
-1. O arquivo de modelos (models.cto) que conterá as informações pertinentes aos participantes, ativos e transações da rede.
-1. O arquivo de controle de acessos (permissions.acl) que conterá regras para definir a quais ativos de uma rede os participantes terão acesso e sob quais condições.
+1. O arquivo de modelos `models.cto` que conterá as informações pertinentes aos participantes, ativos e transações da rede.
+1. O arquivo de controle de acessos `permissions.acl` que conterá regras para definir a quais ativos de uma rede os participantes terão acesso e sob quais condições.
 
 Para isso, executamos o seguinte comando no terminal:
 ```
 yo hyperledger-composer:businessnetwork
 ```
 
-Ao executar esse comando, serão pedidas algumas informações para criar a estrutura de rede. A primeira será o nome da rede que definiremos como `blockchain-teste`. Depois colocaremos a descrição da rede, o nome e e-mail do autor. O campo “Licence” podemos deixar com a opção default (Apache-2.0). No campo “Namespace”, colocaremos `org.teste.blockchain`. E por último, a ferramenta pergunta se queremos gerar uma rede vazia ou não. Selecionaremos “Sim”.
+Ao executar esse comando, serão solicitadas algumas informações para criar a estrutura de rede. A primeira será o nome da rede que definiremos como `blockchain-teste`. Depois colocaremos a descrição da rede, o nome e e-mail do autor. O campo “Licence” podemos deixar com a opção default (Apache-2.0). No campo “Namespace”, colocaremos `org.teste.blockchain`. E por último, a ferramenta pergunta se queremos gerar uma rede vazia ou não. Selecionaremos “Sim”.
 Se a geração for bem sucedida, deverão ser exibidos no terminal os arquivos e diretórios criados pela ferramenta:
 
     create package.json
@@ -143,7 +142,7 @@ code .
 
 Nesse tutorial definiremos uma rede blockchain bem simples, que simulará um mercado imobiliário, onde teremos como ativos fazendas, e teremos como participantes os proprietários das fazendas.
 
-Na IDE, abra o arquivo `org.teste.blockchain.cto` contido no diretório models/ e substitua o conteúdo do arquivo pelo seguinte:
+Na IDE, abra o arquivo `org.teste.blockchain.cto` contido no diretório `models/` e substitua o conteúdo do arquivo pelo seguinte:
 
 ```javascript
 namespace org.test.blockchain
@@ -235,7 +234,7 @@ composer archive create -t dir -n .
 
 Esse comando irá gerar um arquivo com o nome da rede e extensão `.bna`. É esse arquivo que iremos passar como argumento no próximo passo a fim de implantar nossa rede.
 
-## Passo 4: Implantando a Rede de Negócios
+## Passo 4: Implantando a rede de Negócios
 
 Nesse passo a rede blockchain desenvolvida com o conjunto de ferramentas Hyperledger Composer será implantada em uma instância de rede do framework Hyperledger Fabric.
 
@@ -251,7 +250,7 @@ Com as instâncias Fabric em execução, navegue de volta até a pasta do projet
 composer network install --card PeerAdmin@hlfv1 --archiveFile blockchain-teste@0.0.1.bna
 ```
 
-O comando `composer network install` basicamente utiliza todas as permissões de administrador de rede Fabric fornecidas pelas credenciais presentes no card `PeerAdmin@hlfv1`, para instalar a rede de negócios definida no arquivo blockchain-teste@0.0.1.bna na rede Fabric em questão. Essas credenciais são criadas na instalação do Hyperledger Fabric na máquina local.
+O comando `composer network install` basicamente utiliza todas as permissões de administrador de rede Fabric fornecidas pelas credenciais presentes no card `PeerAdmin@hlfv1`, para instalar a rede de negócios definida no arquivo `blockchain-teste@0.0.1.bna` na rede Fabric em questão. Essas credenciais são criadas na instalação do Hyperledger Fabric na máquina local.
 
 Depois de instalar, você deve iniciar a rede de negócios. Execute no terminal:
 
